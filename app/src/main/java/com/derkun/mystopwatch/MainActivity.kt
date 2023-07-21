@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.Chronometer
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var stopwatch: Chronometer
     var running = false
     var offset: Long = 0
@@ -33,11 +34,6 @@ class MainActivity : AppCompatActivity() {
             } else setBaseTime()
         }
 
-        stopwatch.base = SystemClock.elapsedRealtime()
-        stopwatch.start()
-        stopwatch.stop()
-
-
         val startButton = findViewById<Button>(R.id.start_button)
         startButton.setOnClickListener {
                 if (!running) {
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity() {
                     running = true
                 }
         }
-
         val pauseButton = findViewById<Button>(R.id.pause_button)
         pauseButton.setOnClickListener {
             if (running){
@@ -55,6 +50,12 @@ class MainActivity : AppCompatActivity() {
                 running = false
             }
         }
+        stopwatch.base = SystemClock.elapsedRealtime()
+        stopwatch.start()
+        stopwatch.stop()
+
+
+
 
         // The reset button sets the offset and stopwatch to 0
         val resetButton = findViewById<Button>(R.id.reset_button)
@@ -70,8 +71,9 @@ class MainActivity : AppCompatActivity() {
         // It is place where code to run when the activity starts
     }
 
-    override fun onStop(){
-        super.onStop()
+
+    override fun onPause(){
+        super.onPause()
         // It is place where code to run when the activity stops
         if(running){
             saveOffset()
@@ -79,8 +81,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRestart(){
-        super.onRestart()
+    override fun onResume(){
+        super.onResume()
         if (running){
             setBaseTime()
             stopwatch.start()
